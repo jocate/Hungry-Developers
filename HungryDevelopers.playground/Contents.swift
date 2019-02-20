@@ -4,6 +4,12 @@ class Spoon {
     
     private let spoonLock = NSLock()
     
+    var index: Int
+    
+    init(index: Int) {
+        self.index = index
+    }
+    
     func pickUp() {
         spoonLock.lock()
         
@@ -26,15 +32,19 @@ class Developer {
     }
     
     func think() {
-        leftSpoon.pickUp()
-        rightSpoon.pickUp()
+        if leftSpoon.index > rightSpoon.index {
+            rightSpoon.pickUp()
+            leftSpoon.pickUp()
+            
+        } else {
+            leftSpoon.pickUp()
+            rightSpoon.pickUp()
+        }
         // pick up both spoons before returning
     }
     
     func eat() {
-        print("about to eat")
         usleep(200)
-        print("eating")
         leftSpoon.putDown()
         rightSpoon.putDown()
         // pause for random amount of time before putting both spoons down usleep()
@@ -50,11 +60,11 @@ class Developer {
  
 }
 
-var spoon1 = Spoon()
-var spoon2 = Spoon()
-var spoon3 = Spoon()
-var spoon4 = Spoon()
-var spoon5 = Spoon()
+var spoon1 = Spoon(index: 1)
+var spoon2 = Spoon(index: 2)
+var spoon3 = Spoon(index: 3)
+var spoon4 = Spoon(index: 4)
+var spoon5 = Spoon(index: 5)
 
 let developer = Developer(leftSpoon: spoon2, rightSpoon: spoon1)
 let developer2 = Developer(leftSpoon: spoon1, rightSpoon: spoon3)
